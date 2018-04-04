@@ -25,11 +25,28 @@
         <title>Information Deliverer</title>
     </head>
     <body>
-        <div class="container" role="main">
-            <div class="jumbotron">
+        <div class="container theme-showcase" role="main">
+            <div class="">
                 <h1 class="display-4"><center>Log In Page</center> </h1>
             </div>
+        </div>
 
+        <div class="container">
+            <form class="form-signin" method="POST" action="{% url 'index' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="inputName" class="sr-only">Username</label>
+                    <input type="text" class="form-control" id="inputName" placeholder="Username">
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword" class="sr-only">Password</label>
+                    <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+                </div>
+                <center>
+                    <button class="btn btn-lg btn-primary" type="submit">Log In</button>
+                    <a href="{% url 'index' %}" class="btn btn-lg btn-primary">Register User</a>
+                </center>
+            </form>
         </div>
 
     <!-- Optional JavaScript if any of bootstrap to be added must be inserted just above </body> tag -->
