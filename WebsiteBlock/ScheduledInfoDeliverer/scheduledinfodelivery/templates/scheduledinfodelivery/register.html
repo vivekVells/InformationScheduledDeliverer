@@ -1,4 +1,4 @@
-{% load static %}
+{%load static%}
 <!DOCTYPE html>
 <html lang="en">
 <html>
@@ -28,32 +28,48 @@
         <title>Information Deliverer</title>
     </head>
     <body>
-        <div class="container theme-showcase" role="main">
-            <div class="">
-                <h1 class="display-4"><center>Log In Page</center> </h1>
-            </div>
+        <div class="container" role="main">
+            <h1 class="display-4">
+                <center>Register User</center>
+            </h1>
         </div>
 
         <div class="container">
-            <form class="form-signin" method="POST" action="{% url 'index' %}">
+            <form class="form-signin" method="POST" action="{% url 'register' %}">
                 {% csrf_token %}
                 <div class="form-group">
-                    {{loginform.username}}
+                    {{regform.username}}
                 </div>
                 <div class="form-group">
-                    {{loginform.password}}
+                    {{regform.password}}
                 </div>
-                <div>
-                    <center>
-                        <button class="btn btn-lg btn-primary" type="submit">Log In</button>
-                        <a href="{% url 'register' %}" class="btn btn-lg btn-primary">Register User</a>
-                        <pre><br>{{message}}</pre>
-                    </center>
+                <div class="form-group">
+                    {{regform.recovery_answer}}
                 </div>
+                <div class="form-group">
+                    {{regform.recovery_email}}
+                </div>
+                <div class="form-group">
+                    {{regform.first_name}}
+                </div>
+                <div class="form-group">
+                    {{regform.middle_name}}
+                </div>
+                <div class="form-group">
+                    {{regform.last_name}}
+                </div>
+                <div class="form-group">
+                    {{regform.department}}
+                </div>
+                <div class="form-group">
+                    {{regform.phone_number}}
+                </div>
+                <center>
+                    <button class="btn btn-lg btn-primary" type="submit">Register</button>
+                    <a href="{% url 'index' %}" class="btn btn-lg btn-primary">Back</a>
+                </center>
             </form>
         </div>
-
     <!-- Optional JavaScript if any of bootstrap to be added must be inserted just above </body> tag -->
-
     </body>
 </html>

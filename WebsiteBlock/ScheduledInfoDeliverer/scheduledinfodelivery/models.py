@@ -52,7 +52,7 @@ class UserInfo(models.Model):
 class Information(models.Model):
     user = models.ForeignKey('User', on_delete=models.CASCADE)
     type = models.CharField(max_length=100)
-    data = models.CharField()
+    data = models.CharField(max_length=10000)
     created_on = models.DateTimeField(default=timezone.now)
     deleted_on = models.DateTimeField(blank=True, null=True)
 
