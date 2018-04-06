@@ -28,31 +28,64 @@
         <title>Information Deliverer</title>
     </head>
     <body>
+    {{request}}
         <div class="container" role="main">
             <h1 class="display-4">
-                <center>Information Deliverer Home Page</center>
+                <center>Information Deliverer Home page</center>
             </h1>
-        </div>
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td class="text-left">
+                            Logged in as <b>{{username}}</b> at {% now "SHORT_DATETIME_FORMAT" %}
 
+                        </td>
+                        <td class="text-right">
+                            <a href="{% url 'logout' %}" class="btn btn-md btn-primary">Logout</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <br>
         <div class="container">
-            <form class="form-signin" method="POST" action="{% url 'home' %}">
+            <form class="form-signin" method="POST" action="{% url 'schedule' %}">
                 {% csrf_token %}
                 <div class="form-group">
                     {{infoform.info_content}}
                 </div>
                 <div>
+                    <center>Run this program every</center>
+                </div>
+                <div class="input-group">
+                    <div class="">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="">Day</span>
+                            {{schedform.day}}
+                        </div>
+
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="">Hour</span>
+                            {{schedform.hour}}
+                        </div>
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="">Minute</span>
+                            {{schedform.minute}}
+                        </div>
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="">Second</span>
+                            {{schedform.second}}
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
                     <center>
-                        <a href="{% url 'schedule' %}" class="btn btn-lg btn-primary">Start Schedule</a>
-                        <br> <br>
+                        <button class="btn btn-lg btn-primary" type="">Start Schedule</button>
                         <a href="{% url 'stopschedule' %}" class="btn btn-lg btn-primary">Stop Schedule</a>
                     </center>
                 </div>
             </form>
-        </div>
-        <div class="container">
-            <center>
-                <a href="{% url 'index' %}" class="btn btn-lg btn-primary">Back</a>
-            </center>
         </div>
     <!-- Optional JavaScript if any of bootstrap to be added must be inserted just above </body> tag -->
     </body>

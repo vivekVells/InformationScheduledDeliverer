@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
-from . forms import LoginForms, RegisterForms, InfoForms
+from . forms import LoginForms, RegisterForms, InfoForms, SchedForms
 from django.core.exceptions import ObjectDoesNotExist
 from . models import User, UserInfo, Information
 from django.http import HttpResponse
+from . import scheduler
 
 # user_ref is used to show the username at home page
 user_exists = False
@@ -93,13 +94,13 @@ def register(request):
 
 def home(request):
     info_form = InfoForms()
+    sched_form = SchedForms()
 
     if user_exists:
         if request.method == 'POST' and info_form.is_valid:
-            context = {'infoform' : info_form}
-            return render(request, 'scheduledinfodelivery/home.html', context)
+            return redirect('home')
         else:
-            context = {'infoform' : info_form}
+            context = {'request':request, 'infoform' : info_form, 'schedform' : sched_form, 'username' : user_ref}
             return render(request, 'scheduledinfodelivery/home.html', context)
     else:
         return HttpResponse('Login again using the link: \'http://127.0.0.1:8000/infodeliver/\' ')
@@ -107,9 +108,30 @@ def home(request):
 def handle_info(request):
     pass
 
-def schedule(request):
-    return redirect('home')
 
-def stopschedule(request):
-    return redirect('home')
+def schedule(request):
+    if user_exists and request.method == 'POST':
+        scheduler.set_job_status('start')
+        scheduler.set_job_type(
+            'email', request.POST['info_content']
+        )
+        scheduler.set_schedule_parameters(
+            request.POST['day'],
+            request.POST['hour'],
+            request.POST['minute'],
+            request.POST['second']
+        )
+        scheduler.job_start()
+        return redirect('home')
+    else:
+        return redirect('index')
+
+
+def stop_schedule(request):
+    if user_exists:
+        scheduler.set_job_status('stop')
+        scheduler.job_start()
+        return redirect('home')
+    else:
+        return redirect('index')
 

@@ -35,3 +35,12 @@ class InfoForms(forms.Form):
     info_content = forms.CharField(max_length=10000,
                                    widget=forms.Textarea(attrs={'class' : '', 'placeholder' : 'Content to be delivered'}))
 
+class SchedForms(forms.Form):
+    day = forms.IntegerField(
+                          widget=forms.TextInput(attrs={'placeholder' : 'XX'}))
+    hour = forms.IntegerField(
+                          widget=forms.TextInput(attrs={'placeholder' : 'XX'}))
+    minute = forms.IntegerField(
+                          widget=forms.TextInput(attrs={'placeholder' : 'XX'}))
+    second = forms.IntegerField(
+                          widget=forms.TextInput(attrs={'placeholder' : 'XX'}))
