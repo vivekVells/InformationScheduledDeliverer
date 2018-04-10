@@ -1,9 +1,10 @@
 '''
 This program handles the scheduling job parts
+https://code.tutsplus.com/tutorials/managing-cron-jobs-using-python--cms-28231
 '''
 
-import schedule, datetime
-
+import schedule, datetime, time
+from . models import User, ScheduleInforDeliver
 from . utility import sendemail
 
 '''
@@ -23,6 +24,7 @@ schedule.every().monday.do(job)
 schedule.every().wednesday.at("13:15").do(job)
 '''
 
+username = ''
 days = 0
 hours = 0
 minutes = 0
@@ -32,6 +34,26 @@ job_type = ''
 job_info_content = 'Vivek, stay hungry. stay foolish. Never give up!'
 
 
+def set_username(username_arg):
+    global username
+    username = username_arg
+
+
+def get_username():
+    return username
+
+
+user_obj = User.objects.get(username='keviv22')
+user_scheduler = user_obj.scheduleinfordeliver_set.all()[0]
+job_status = user_scheduler.job_status
+job_type = user_scheduler.job_type
+job_info_content = user_scheduler.job_info_content
+days = user_scheduler.day
+hours = user_scheduler.hour
+minutes = user_scheduler.minute
+seconds = user_scheduler.second
+
+
 def set_job_type(job_type_arg, job_info_content_arg):
     global job_type, job_info_content
     job_type = job_type_arg
@@ -39,13 +61,13 @@ def set_job_type(job_type_arg, job_info_content_arg):
 
 
 def get_job_type_alone():
-    global job_type
-    return job_type
+    # return job_type
+    return user_scheduler.job_type
 
 
 def get_job_info_content_alone():
-    global job_info_content
-    return 'Vivek, stay hungry. stay foolish. Never give up!'
+    return user_scheduler.job_info_content
+    # return 'Vivek, stay hungry. stay foolish. Never give up!'
 
 
 def set_schedule_parameters(day, hour, minute, second):
@@ -63,44 +85,50 @@ def set_job_status(job_status_arg):
 
 
 def get_job_status():
-    global job_status
-    return job_status
+    return user_scheduler.job_status
 
 
 def get_schedule_parameters():
-    global days, hours, minutes, seconds
-    return days, hours, minutes, seconds
+    # return days, hours, minutes, seconds
+    return user_scheduler.day, user_scheduler.hour, user_scheduler.minute, user_scheduler.second
 
 
 def set_job_function():
     pass
 
 
+def send_mail_job():
+    sendemail.send_mail(
+        'askkeviv@gmail.com',
+        'digitaled123',
+        'techengineervivek@gmail.com',
+        'Scheduled email at' + datetime.datetime.now().strftime('%H:%M:%S'),
+        get_job_info_content_alone()
+    )
+
+
 def job_start():
     print('Job Status: ', get_job_status())
     if get_job_status() == 'start':
-        while True:
-            day_arg, hour_arg, minute_arg, second_arg = get_schedule_parameters()
-            print('Job is running...')
-            if get_job_type_alone() == 'email':
-                schedule.every(second_arg).seconds.do(
-                    sendemail.send_mail(
-                        'askkeviv@gmail.com',
-                        'digitaled123',
-                        'techengineervivek@gmail.com',
-                        'Scheduled email at' + datetime.datetime.now().strftime('%H:%M:%S'),
-                        get_job_info_content_alone()
-                    )
-                )
+        #while True:
+        day_arg, hour_arg, minute_arg, second_arg = get_schedule_parameters()
+        print('Job is running...')
+        if get_job_type_alone() == 'email':
+            schedule.every(second_arg).seconds.do(send_mail_job)
+            '''
+            while True:
+                schedule.run_pending()
+                time.sleep(1)
+                '''
+
     elif get_job_status() == 'stop':
         schedule.clear('daily-tasks')
         print('Job stopped...')
     else:
         print('No Job is running...')
-        pass
 
+'''
 # have to use this one!
-'''    
 while True:
     day_arg, hour_arg, minute_arg, second_arg = get_schedule_parameters()
     if get_job_status() == 'start':
@@ -120,9 +148,7 @@ while True:
         print('Job stopped...')
     else:
         print('No Job is running...')
-        pass
 '''
-
 
 def schedule_job(day, hour, minute, second):
     pass

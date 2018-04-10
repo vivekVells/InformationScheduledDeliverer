@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from . forms import LoginForms, RegisterForms, InfoForms, SchedForms
 from django.core.exceptions import ObjectDoesNotExist
-from . models import User, UserInfo, Information
+from . models import User, UserInfo, Information, ScheduleInforDeliver
 from django.http import HttpResponse
 from . import scheduler
 
@@ -111,6 +111,7 @@ def handle_info(request):
 
 def schedule(request):
     if user_exists and request.method == 'POST':
+        '''
         scheduler.set_job_status('start')
         scheduler.set_job_type(
             'email', request.POST['info_content']
@@ -121,6 +122,22 @@ def schedule(request):
             request.POST['minute'],
             request.POST['second']
         )
+        '''
+        scheduler.set_username(user_ref)
+        user_obj = User.objects.get(username=str(user_ref))
+        user_scheduler = user_obj.scheduleinfordeliver_set.all()[0]
+
+        # the following are the updation quries
+        user_scheduler.job_status = 'start'
+        user_scheduler.job_type = 'email'
+        user_scheduler.job_info_content = request.POST['info_content']
+        user_scheduler.day = request.POST['day']
+        user_scheduler.hour = request.POST['hour']
+        user_scheduler.minute = request.POST['minute']
+        user_scheduler.second = request.POST['second']
+
+        # never forget to save after updation
+        user_scheduler.save()
         scheduler.job_start()
         return redirect('home')
     else:
@@ -129,7 +146,12 @@ def schedule(request):
 
 def stop_schedule(request):
     if user_exists:
-        scheduler.set_job_status('stop')
+        user_obj = User.objects.get(username=user_ref)
+        user_scheduler = user_obj.scheduleinfordeliver_set.all()[0]
+
+        user_scheduler.job_status = 'stop'
+        user_scheduler.save()
+        # scheduler.set_job_status('stop')
         scheduler.job_start()
         return redirect('home')
     else:

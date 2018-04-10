@@ -57,7 +57,24 @@ class Information(models.Model):
     deleted_on = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
-        return "%ID: %d type: %s data: %s" % (self.id, self.type, self.data)
+        return "ID: %d type: %s data: %s" % (self.id, self.type, self.data)
+
+
+class ScheduleInforDeliver(models.Model):
+    user = models.ForeignKey('User', on_delete=models.CASCADE)
+    job_status = models.CharField(max_length=50, default='idle')
+    job_type = models.CharField(max_length=50)
+    job_info_content = models.TextField()
+    day = models.IntegerField(blank=True, null=True)
+    hour = models.IntegerField(blank=True, null=True)
+    minute = models.IntegerField(blank=True, null=True)
+    second = models.IntegerField(blank=True, null=True)
+    created_on = models.DateTimeField(default=timezone.now)
+    deleted_on = models.DateTimeField(blank=True, null=True)
+
+    def __str__(self):
+        return "ID: %d job_type: %s job_info_content: %s day: %d hour: %d minute: %d second: %d" % (self.id, self.job_type, self.job_info_content, self.day, self.hour, self.minute, self.second)
+
 
 '''
 Will be implemented later. Unable to redirect properly when the scheduled job is running.
