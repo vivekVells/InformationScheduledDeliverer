@@ -104,7 +104,7 @@ def job_start(job_status, job_type, email_reciver, email_subject, email_info_con
         # day_arg, hour_arg, minute_arg, second_arg = get_schedule_parameters()
         print('Job is running...')
         if job_type == 'email':
-            send_email_task(
+            send_email_task.delay(
                 email_reciver,
                 email_subject,
                 email_info_content,
