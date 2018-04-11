@@ -30,6 +30,13 @@ class RegisterForms(forms.Form):
     phone_number = forms.IntegerField(
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Phone Number'}))
 
+
+class EmailForms(forms.Form):
+    email_subject = forms.CharField(max_length=500,
+                                 widget=forms.TextInput(attrs={'placeholder' : 'Subject'}))
+    to_address = forms.CharField(max_length=500,
+                                 widget=forms.TextInput(attrs={'placeholder' : 'Send Mail to'}))
+
 # Information Page Form
 class InfoForms(forms.Form):
     info_content = forms.CharField(max_length=10000,

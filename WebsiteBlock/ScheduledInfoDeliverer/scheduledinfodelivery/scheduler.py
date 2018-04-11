@@ -5,7 +5,7 @@ https://code.tutsplus.com/tutorials/managing-cron-jobs-using-python--cms-28231
 
 import schedule, datetime, time
 from . models import User, ScheduleInforDeliver
-from . utility import sendemail
+from . tasks import send_email_task
 
 '''
 def stopMailer():
@@ -23,7 +23,7 @@ schedule.every().day.at("10:30").do(job)
 schedule.every().monday.do(job)
 schedule.every().wednesday.at("13:15").do(job)
 '''
-
+'''
 username = ''
 days = 0
 hours = 0
@@ -32,7 +32,9 @@ seconds = 0
 job_status = 'idle'
 job_type = ''
 job_info_content = 'Vivek, stay hungry. stay foolish. Never give up!'
+'''
 
+username = ''
 
 def set_username(username_arg):
     global username
@@ -40,9 +42,8 @@ def set_username(username_arg):
 
 
 def get_username():
-    return username
-
-
+    return str(username)
+'''
 user_obj = User.objects.get(username='keviv22')
 user_scheduler = user_obj.scheduleinfordeliver_set.all()[0]
 job_status = user_scheduler.job_status
@@ -66,7 +67,7 @@ def get_job_type_alone():
 
 
 def get_job_info_content_alone():
-    return user_scheduler.job_info_content
+    return str(user_scheduler.job_info_content)
     # return 'Vivek, stay hungry. stay foolish. Never give up!'
 
 
@@ -95,33 +96,25 @@ def get_schedule_parameters():
 
 def set_job_function():
     pass
+'''
 
-
-def send_mail_job():
-    sendemail.send_mail(
-        'askkeviv@gmail.com',
-        'digitaled123',
-        'techengineervivek@gmail.com',
-        'Scheduled email at' + datetime.datetime.now().strftime('%H:%M:%S'),
-        get_job_info_content_alone()
-    )
-
-
-def job_start():
-    print('Job Status: ', get_job_status())
-    if get_job_status() == 'start':
-        #while True:
-        day_arg, hour_arg, minute_arg, second_arg = get_schedule_parameters()
+def job_start(job_status, job_type, email_reciver, email_subject, email_info_content, day_arg, hour_arg, minute_arg, second_arg):
+    print('Job Status: ', job_status)
+    if job_status == 'start':
+        # day_arg, hour_arg, minute_arg, second_arg = get_schedule_parameters()
         print('Job is running...')
-        if get_job_type_alone() == 'email':
-            schedule.every(second_arg).seconds.do(send_mail_job)
-            '''
-            while True:
-                schedule.run_pending()
-                time.sleep(1)
-                '''
-
-    elif get_job_status() == 'stop':
+        if job_type == 'email':
+            send_email_task(
+                email_reciver,
+                email_subject,
+                email_info_content,
+                day_arg,
+                hour_arg,
+                minute_arg,
+                second_arg
+            )
+            # schedule.every(second_arg).seconds.do(send_mail_job)
+    elif job_status == 'stop':
         schedule.clear('daily-tasks')
         print('Job stopped...')
     else:

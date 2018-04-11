@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
-from . forms import LoginForms, RegisterForms, InfoForms, SchedForms
+from . forms import LoginForms, RegisterForms, InfoForms, SchedForms, EmailForms
 from django.core.exceptions import ObjectDoesNotExist
 from . models import User, UserInfo, Information, ScheduleInforDeliver
 from django.http import HttpResponse
 from . import scheduler
+from . import tasks
 
 # user_ref is used to show the username at home page
 user_exists = False
@@ -95,12 +96,13 @@ def register(request):
 def home(request):
     info_form = InfoForms()
     sched_form = SchedForms()
+    email_form = EmailForms()
 
     if user_exists:
         if request.method == 'POST' and info_form.is_valid:
             return redirect('home')
         else:
-            context = {'request':request, 'infoform' : info_form, 'schedform' : sched_form, 'username' : user_ref}
+            context = {'request':request, 'infoform' : info_form, 'schedform' : sched_form, 'emailform' : email_form, 'username' : user_ref}
             return render(request, 'scheduledinfodelivery/home.html', context)
     else:
         return HttpResponse('Login again using the link: \'http://127.0.0.1:8000/infodeliver/\' ')
@@ -123,6 +125,8 @@ def schedule(request):
             request.POST['second']
         )
         '''
+
+        '''
         scheduler.set_username(user_ref)
         user_obj = User.objects.get(username=str(user_ref))
         user_scheduler = user_obj.scheduleinfordeliver_set.all()[0]
@@ -136,9 +140,31 @@ def schedule(request):
         user_scheduler.minute = request.POST['minute']
         user_scheduler.second = request.POST['second']
 
+        # have to create a db entry for this one
+        email_receiver = request.POST['to_address']
+        email_subject = request.POST['email_subject']
+
         # never forget to save after updation
         user_scheduler.save()
-        scheduler.job_start()
+        '''
+
+        scheduler.job_start(
+            'start',
+            'email',
+            request.POST['to_address'],
+            request.POST['email_subject'],
+            request.POST['info_content'],
+            request.POST['day'],
+            request.POST['hour'],
+            request.POST['minute'],
+            request.POST['second']
+        )
+
+        '''
+        tasks.send_email_task.delay(
+            'email', 'message'
+        )
+        '''
         return redirect('home')
     else:
         return redirect('index')
