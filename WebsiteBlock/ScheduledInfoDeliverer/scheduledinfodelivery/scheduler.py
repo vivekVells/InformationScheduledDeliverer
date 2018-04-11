@@ -98,6 +98,7 @@ def set_job_function():
     pass
 '''
 
+
 def job_start(job_status, job_type, email_reciver, email_subject, email_info_content, day_arg, hour_arg, minute_arg, second_arg):
     print('Job Status: ', job_status)
     if job_status == 'start':
