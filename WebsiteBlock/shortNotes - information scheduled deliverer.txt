@@ -1,15 +1,21 @@
 Versions used:
+(as of 13th April)
 pip install python==3.6
 pip install celery==4.1.0
+pip install django==2.0.2
 pip install django-celery-beat==1.1.1
 pip install django-celery-results==1.0.1
 pip ==9.03
 pip install redis==2.10.5
 
 
-
-
-https://www.codingforentrepreneurs.com/blog/celery-redis-django/
+Used this one:
+	- https://www.codingforentrepreneurs.com/blog/celery-redis-django/
+		- college website
+	- https://www.caktusgroup.com/blog/2014/06/23/scheduling-tasks-celery/
+		- personal thing
+	-https://stackoverflow.com/questions/10194975/how-to-dynamically-add-remove-periodic-tasks-to-celery-celerybeat
+		- Task Scheduler Class djcelery
 
 pip install -U django-celery-beat
 Successfully installed amqp-2.2.2 billiard-3.5.0.3 celery-4.1.0 kombu-4.1.0 pytz-2018.4
