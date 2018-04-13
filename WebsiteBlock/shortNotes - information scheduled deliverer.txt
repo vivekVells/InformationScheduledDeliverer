@@ -1,0 +1,42 @@
+Versions used:
+pip install python==3.6
+pip install celery==4.1.0
+pip install django-celery-beat==1.1.1
+pip install django-celery-results==1.0.1
+pip ==9.03
+pip install redis==2.10.5
+
+
+
+
+https://www.codingforentrepreneurs.com/blog/celery-redis-django/
+
+pip install -U django-celery-beat
+Successfully installed amqp-2.2.2 billiard-3.5.0.3 celery-4.1.0 kombu-4.1.0 pytz-2018.4
+
+https://github.com/celery/kombu/issues/653
+	- TypeError: can_read() got an unexpected keyword argument 'timeout' #653
+	- pip install redis==2.10.5
+
+https://github.com/celery/celery/issues/4178
+	- ValueError: not enough values to unpack (expected 3, got 0) #4178
+	- celery -A your_app_name worker --pool=solo -l info
+	
+pip install django-celery-results
+	- Successfully installed django-celery-results-1.0.1
+
+
+celery -A ScheduledInfoDeliverer beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+	
+
+https://stackoverflow.com/questions/40436815/django-celery-class-based-task-doesnt-work
+	- create class tasks
+	
+	
+django.db.utils.IntegrityError: UNIQUE constraint failed: django_celery_beat_periodictask.name
+
+
+
+
+
+	
