@@ -3,6 +3,7 @@ Versions used:
 pip install python==3.6
 pip install celery==4.1.0
 pip install django==2.0.4
+pip install eventlet==0.22
 pip install django-celery-beat==1.1.1
 pip install django-celery-results==1.0.1
 pip==9.03
@@ -13,6 +14,7 @@ Log:
 - Successfully installed amqp-2.2.2 billiard-3.5.0.3 celery-4.1.0 kombu-4.1.0
 - Successfully installed redis-2.10.6
 - Successfully installed django-celery-beat-1.1.1
+- Successfully installed eventlet-0.22.1 greenlet-0.4.13
 
 Reasoning:
 	- Python 
@@ -21,10 +23,15 @@ Reasoning:
 	- Celery.beat task scheduler - http://docs.celeryproject.org/en/latest/reference/celery.beat.html#celery.beat.Scheduler.schedule
 	- redis - message broker
 
-
+Commands:
+	- redis-server
+	- celery -A ScheduledInfoDeliverer worker --pool=eventlet -l info
+	- celery -A ScheduledInfoDeliverer beat -l info
+	
 
 Note:
 	- django-celery 3.2.2 has requirement celery<4.0,>=3.1.15, but you'll have celery 4.1.0 which is incompatible.
+	- eventlet is used  to have parallel-running tasks on Windows.https://github.com/celery/celery/issues/4178#issuecomment-344176336
 
 
 Used this one:
