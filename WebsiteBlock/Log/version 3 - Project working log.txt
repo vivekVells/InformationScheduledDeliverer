@@ -1,0 +1,108 @@
+Command Used:
+- D:\DigitalEdWorkshopAutoMail\DigitalEdWorkshopAutoMail\SourceRoot\WebsiteBlock\ScheduledInfoDeliverer>redis-server
+- D:\DigitalEdWorkshopAutoMail\DigitalEdWorkshopAutoMail\SourceRoot\WebsiteBlock\ScheduledInfoDeliverer>celery -A ScheduledInfoDeliverer worker --pool=eventlet -l info
+- D:\DigitalEdWorkshopAutoMail\DigitalEdWorkshopAutoMail\SourceRoot\WebsiteBlock\ScheduledInfoDeliverer>celery -A ScheduledInfoDeliverer beat -l info
+
+Mail also received:
+Subject: CTE Workshop Meeting - Collaboration through iLearn - Notification 
+
+Dear Kevtastic Kraken ,
+
+You have a Workshop Session scheduled today.
+
+
+Workshop Information Summary: 
+Workshop Category: Blended Classroom
+Workshop Title: Collaboration Through Ilearn
+Workshop Duration Info: March 22Nd, 11:00 Am - 12:00 Pm
+Location: Library 303, Library Building
+
+Thanks & regards, 
+Vivek Vellaiyappan Surulimuthu 
+Digital Education Representative 
+Marist College 
+Vivek.Surulimuthu1@marist.edu
+
+Log:
+
+--------------------------------------------------------------------------
+D:\DigitalEdWorkshopAutoMail\DigitalEdWorkshopAutoMail\SourceRoot\WebsiteBlock\ScheduledInfoDeliverer>redis-server
+[988] 20 Apr 13:54:10 # Warning: no config file specified, using the default config. In order to specify a config file use 'redis-server /path/to/redis.conf'
+[988] 20 Apr 13:54:10 * Server started, Redis version 2.4.6
+[988] 20 Apr 13:54:10 # Open data file dump.rdb: No such file or directory
+[988] 20 Apr 13:54:10 * The server is now ready to accept connections on port 6379
+[988] 20 Apr 13:54:11 - 0 clients connected (0 slaves), 1179896 bytes in use
+[988] 20 Apr 13:54:15 - Accepted 127.0.0.1:52059
+[988] 20 Apr 13:54:16 - 1 clients connected (0 slaves), 1188048 bytes in use
+[988] 20 Apr 13:54:16 - Accepted 127.0.0.1:52061
+[988] 20 Apr 13:54:17 - Accepted 127.0.0.1:52063
+[988] 20 Apr 13:54:18 - Accepted 127.0.0.1:52065
+[988] 20 Apr 13:54:19 - Accepted 127.0.0.1:52067
+[988] 20 Apr 13:54:20 - Accepted 127.0.0.1:52069
+[988] 20 Apr 13:54:21 - DB 0: 1 keys (0 volatile) in 4 slots HT.
+[988] 20 Apr 13:54:21 - 6 clients connected (0 slaves), 1234392 bytes in use
+[988] 20 Apr 13:54:22 - Accepted 127.0.0.1:52071
+[988] 20 Apr 13:54:23 - Accepted 127.0.0.1:52073
+[988] 20 Apr 13:54:24 - Accepted 127.0.0.1:52075
+[988] 20 Apr 13:54:25 - Accepted 127.0.0.1:52077
+[988] 20 Apr 13:54:26 - DB 0: 4 keys (1 volatile) in 4 slots HT.
+[988] 20 Apr 13:54:26 - 10 clients connected (0 slaves), 1269208 bytes in use
+[988] 20 Apr 13:54:31 - DB 0: 4 keys (1 volatile) in 4 slots HT.
+[988] 20 Apr 13:54:31 - 10 clients connected (0 slaves), 1269208 bytes in use
+[988] 20 Apr 13:54:36 - DB 0: 4 keys (1 volatile) in 4 slots HT.
+[988] 20 Apr 13:54:36 - 10 clients connected (0 slaves), 1269208 bytes in use
+[988] 20 Apr 13:54:38 - Accepted 127.0.0.1:52080
+[988] 20 Apr 13:54:39 - Accepted 127.0.0.1:52082
+-----------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------
+D:\DigitalEdWorkshopAutoMail\DigitalEdWorkshopAutoMail\SourceRoot\WebsiteBlock\ScheduledInfoDeliverer>celery -A ScheduledInfoDeliverer worker --pool=eventlet -l info
+('D:\\DigitalEdWorkshopAutoMail\\DigitalEdWorkshopAutoMail\\SourceRoot\\WebsiteBlock\\ScheduledInfoDeliverer\\scheduledinfodelivery\\templates',)
+
+ -------------- celery@LB305-12 v4.1.0 (latentcall)
+---- **** -----
+--- * ***  * -- Windows-10-10.0.15063-SP0 2018-04-20 13:55:50
+-- * - **** ---
+- ** ---------- [config]
+- ** ---------- .> app:         ScheduledInfoDeliverer:0x3cad550
+- ** ---------- .> transport:   redis://localhost:6379//
+- ** ---------- .> results:     redis://localhost:6379/
+- *** --- * --- .> concurrency: 4 (eventlet)
+-- ******* ---- .> task events: OFF (enable -E to monitor tasks in this worker)
+--- ***** -----
+ -------------- [queues]
+                .> celery           exchange=celery(direct) key=celery
+
+
+[tasks]
+  . ScheduledInfoDeliverer.celery.debug_task
+  . send_email_task
+
+[2018-04-20 13:55:51,983: INFO/MainProcess] Connected to redis://localhost:6379//
+[2018-04-20 13:55:53,008: INFO/MainProcess] mingle: searching for neighbors
+[2018-04-20 13:55:57,081: INFO/MainProcess] mingle: all alone
+[2018-04-20 13:56:00,113: WARNING/MainProcess] d:\python36\lib\site-packages\celery\fixups\django.py:202: UserWarning: Using settings.DEBUG leads to a memory leak, never use this setting in production environments!
+  warnings.warn('Using settings.DEBUG leads to a memory leak, never '
+[2018-04-20 13:56:00,117: INFO/MainProcess] celery@LB305-12 ready.
+[2018-04-20 13:56:01,139: INFO/MainProcess] pidbox: Connected to redis://localhost:6379//.
+[2018-04-20 13:56:06,220: INFO/MainProcess] Received task: send_email_task[51e56568-c07a-42dd-a6c0-bc3c22f0f2a2]
+[2018-04-20 13:56:06,224: WARNING/MainProcess] sending email task...
+---------------------------------------------------------------------------------------
+
+
+---------------------------------------------------------------------------------------
+D:\DigitalEdWorkshopAutoMail\DigitalEdWorkshopAutoMail\SourceRoot\WebsiteBlock\ScheduledInfoDeliverer>celery -A ScheduledInfoDeliverer beat -l info
+celery beat v4.1.0 (latentcall) is starting.
+__    -    ... __   -        _
+LocalTime -> 2018-04-20 13:56:03
+Configuration ->
+    . broker -> redis://localhost:6379//
+    . loader -> celery.loaders.app.AppLoader
+    . scheduler -> celery.beat.PersistentScheduler
+    . db -> celerybeat-schedule
+    . logfile -> [stderr]@%INFO
+    . maxinterval -> 5.00 minutes (300s)
+[2018-04-20 13:56:03,023: INFO/MainProcess] beat: Starting...
+[2018-04-20 13:56:04,187: INFO/MainProcess] Scheduler: Sending due task add-every-5-seconds (send_email_task)
+[2018-04-20 13:56:08,153: INFO/MainProcess] Scheduler: Sending due task add-every-5-seconds (send_email_task)
+---------------------------------------------------------------------------------------

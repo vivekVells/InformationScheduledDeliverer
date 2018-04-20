@@ -10,6 +10,11 @@ from string import Template
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
+# this is how we could access other directory
+import sys
+sys.path.append(os.path.join('..', 'ScheduledInfoDeliverer'))
+from ScheduledInfoDeliverer import settings
+
 emailAddress = ''
 emailPassword = ''
 contactFileLocation = ''
@@ -19,14 +24,18 @@ workshopFileLocation = ''
 def setup_mail_user_info():
     global emailAddress, emailPassword
     emailAddress = 'askkeviv@gmail.com'
-    emailPassword = 'digitaled1123'
+    emailPassword = 'digitaled123'
 
 
 def setup_file_location():
     global contactFileLocation, messageFileLocation, workshopFileLocation
-    contactFileLocation = os.path.join('.', 'templates', 'scheduledinfodelivery', 'contacts.txt')
-    messageFileLocation = os.path.join('.', 'templates', 'scheduledinfodelivery', 'message.txt')
-    workshopFileLocation = os.path.join('.', 'templates', 'scheduledinfodelivery', 'workshopinfo.txt')
+    TEMPLATE_CONTACTS_DIR = os.path.join(list(settings.TEMPLATE_DIRS)[0], 'scheduledinfodelivery', 'contacts.txt')
+    TEMPLATE_MESSAGE_DIR = os.path.join(list(settings.TEMPLATE_DIRS)[0], 'scheduledinfodelivery', 'message.txt')
+    TEMPLATE_WORKSHOP_INFO_DIR = os.path.join(list(settings.TEMPLATE_DIRS)[0], 'scheduledinfodelivery', 'workshopinfo.txt')
+
+    contactFileLocation = TEMPLATE_CONTACTS_DIR
+    messageFileLocation = TEMPLATE_MESSAGE_DIR
+    workshopFileLocation = TEMPLATE_WORKSHOP_INFO_DIR
 
 
 # Function to read the contacts from a given contact file and return a

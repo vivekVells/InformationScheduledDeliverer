@@ -22,10 +22,10 @@ def debug_task(self):
   print('Request: {0!r}'.format(self.request))
 
 
+# have to add cron based schedule below. that's it..
 app.conf.beat_schedule = {
     'add-every-5-seconds': {
-        'task': 'multiply_two_numbers',
+        'task': 'send_email_task',
         'schedule': 5.0,
-        'args': (16, 16)
     },
 }
