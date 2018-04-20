@@ -28,7 +28,6 @@
         <title>Information Deliverer</title>
     </head>
     <body>
-    {{request}}
         <div class="container" role="main">
             <h1 class="display-4">
                 <center>Information Deliverer Home page</center>
@@ -44,52 +43,51 @@
                             <a href="{% url 'logout' %}" class="btn btn-md btn-primary">Logout</a>
                         </td>
                     </tr>
+                    <tr>
+                        <td class="text-center">
+                            <div>
+                                The Information will be delivered to given email ids <b>every day 8AM</b> based on Workshop Session Status
+                            </div>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
-        </div>
-        <br>
-        <div class="container">
-            <form class="form-signin" method="POST" action="{% url 'schedule' %}">
-                {% csrf_token %}
-                <div class="form-group">
-                    {{emailform.email_subject}}
+            <br>
+            <div class="row">
+                <div class="col-sm">
+                    <center><h5>Scheduled Information Modifier</h5></center>
+                    <form class="form-signin" method="POST" action="{% url 'schedule' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <br>
+                            Modify Existing Recipient's Email List <br>
+                            {{emailform.to_address}}
+                        </div>
+                        <br>
+                        <div class="text-center">
+                            <button class="btn btn-lg btn-primary" type="">Modify</button>
+                        </div>
+                    </form>
+                </div>
+                <div style="border-left:1px solid #000;height:500px"></div>
+                <div class="col-sm">
+                    <center><h5>Workshop information scheduled tomorrow at 8 AM</h5></center>
                     <br> <br>
-                    {{emailform.to_address}}
-                    <br> <br>
-                    {{infoform.info_content}}
+                    <p>
+                        Workshop Summary:
+                        <ol>
+                        {% for workshop_category, workshop_title, workshop_duration, workshop_location in workshops_info%}
+                            <li>
+                                Category: {{workshop_category}} <br>
+                                Title: {{workshop_title}} <br>
+                                Duration: {{workshop_duration}} <br>
+                                Location: {{workshop_location}}
+                            </li> <br>
+                        {% endfor %}
+                        </ol>
+                    </p>
                 </div>
-                <div>
-                    <center>Run this program every</center>
-                </div>
-                <div class="input-group">
-                    <div class="">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="">Day</span>
-                            {{schedform.day}}
-                        </div>
-
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="">Hour</span>
-                            {{schedform.hour}}
-                        </div>
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="">Minute</span>
-                            {{schedform.minute}}
-                        </div>
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="">Second</span>
-                            {{schedform.second}}
-                        </div>
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <center>
-                        <button class="btn btn-lg btn-primary" type="">Start Schedule</button>
-                        <a href="{% url 'stopschedule' %}" class="btn btn-lg btn-primary">Stop Schedule</a>
-                    </center>
-                </div>
-            </form>
+            </div>
         </div>
     <!-- Optional JavaScript if any of bootstrap to be added must be inserted just above </body> tag -->
     </body>

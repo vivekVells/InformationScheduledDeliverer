@@ -1,0 +1,26 @@
+<html>
+    <body>
+        <p>
+            Dear ${PERSON_NAME},
+
+            <p>
+                You have a Workshop Session scheduled today.
+            </p>
+
+            <br>Workshop Information Summary:
+            <br><ul>
+                <li><b>Workshop Category:</b> ${WORKSHOP_CATEGORY}</li>
+                <li><b>Workshop Title:</b> ${WORKSHOP_TITLE}</li>
+                <li><b>Workshop Duration Info:</b> ${WORKSHOP_DURATION}</li>
+                <li><b>Location: </b>${WORKSHOP_LOCATION}</li>
+            </ul>
+
+
+            <br>Thanks & regards,
+            <br>Vivek Vellaiyappan Surulimuthu
+            <br>Digital Education Representative
+            <br>Marist College
+            <br>Vivek.Surulimuthu1@marist.edu
+        </p>
+    </body>
+</html>

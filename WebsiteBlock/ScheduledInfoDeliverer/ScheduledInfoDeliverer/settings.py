@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_celery_beat',
+    'django_celery_results',
 ]
 
 MIDDLEWARE = [
@@ -120,10 +122,14 @@ TIME_ZONE = 'America/New_York'
 
 STATIC_URL = '/static/'
 
-# CELERY STUFF
-BROKER_URL = 'redis://localhost:6379'
+# default app root being set as of now. have to make this generic
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+APP_ROOT = os.path.join(PROJECT_ROOT, 'scheduledinfodelivery')
+TEMPLATE_DIRS = (os.path.join(APP_ROOT, 'templates'), )
+
+CELERY_BROKER_URL = 'redis://localhost:6379'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TIMEZONE = 'Africa/Nairobi'
+CELERY_TIMEZONE = TIME_ZONE

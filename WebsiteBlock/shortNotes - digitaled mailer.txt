@@ -2,11 +2,29 @@ Versions used:
 (as of 13th April)
 pip install python==3.6
 pip install celery==4.1.0
-pip install django==2.0.2
+pip install django==2.0.4
 pip install django-celery-beat==1.1.1
 pip install django-celery-results==1.0.1
-pip ==9.03
-pip install redis==2.10.5
+pip==9.03
+pip install redis==2.10.6
+Redis-Server == 2.4.6.0 (install like file)
+
+Log:
+- Successfully installed amqp-2.2.2 billiard-3.5.0.3 celery-4.1.0 kombu-4.1.0
+- Successfully installed redis-2.10.6
+- Successfully installed django-celery-beat-1.1.1
+
+Reasoning:
+	- Python 
+	- Django 
+	- Celery task queue manager
+	- Celery.beat task scheduler - http://docs.celeryproject.org/en/latest/reference/celery.beat.html#celery.beat.Scheduler.schedule
+	- redis - message broker
+
+
+
+Note:
+	- django-celery 3.2.2 has requirement celery<4.0,>=3.1.15, but you'll have celery 4.1.0 which is incompatible.
 
 
 Used this one:

@@ -1,25 +1,38 @@
+import os
 from django.shortcuts import render, redirect
 from . forms import LoginForms, RegisterForms, InfoForms, SchedForms, EmailForms
+from . WorkshopInfoHandler import get_workshop_info
 from django.core.exceptions import ObjectDoesNotExist
-from . models import User, UserInfo, Information, ScheduleInforDeliver
+from . models import User, UserInfo, Information, UserLog
 from django.http import HttpResponse
 from . import scheduler
-from . import tasks
+from django.utils import timezone
+
+# this is how we could access other directory
+import sys
+sys.path.append(os.path.join('..', 'ScheduledInfoDeliverer'))
+from ScheduledInfoDeliverer import settings
 
 # user_ref is used to show the username at home page
 user_exists = False
 user_ref = ''
+user_log_obj = ''
 
 
 def logout(request):
+    try:
+        user_log_obj.last_logged_out=timezone.now()
+        user_log_obj.save()
+    except User.DoesNotExist:
+        print('Error occurred while trying to log the logout')
     del_session(request)
     return redirect('index')
 
-
 def del_session(request):
-    global user_exists, user_ref
+    global user_exists, user_ref, user_log_obj
     user_exists = False
     user_ref = ''
+    user_log_obj = ''
 
     try:
         del request.session['user_id']
@@ -29,7 +42,7 @@ def del_session(request):
 
 
 def validate_login(request):
-    global user_exists, user_ref
+    global user_exists, user_ref, user_log_obj
 
     try:
         user = User.objects.get(username=request.POST['username'])
@@ -38,6 +51,7 @@ def validate_login(request):
             user_exists = True
             user_ref = request.POST['username']
             request.session['user_id'] = user.id
+            user_log_obj = user.userlog_set.create(last_logged_in=timezone.now())
             return True
         else:
             print('password does not match....')
@@ -95,14 +109,20 @@ def register(request):
 
 def home(request):
     info_form = InfoForms()
-    sched_form = SchedForms()
     email_form = EmailForms()
-
+    TEMPLATE_WORKSHOP_INFO_DIR = os.path.join(list(settings.TEMPLATE_DIRS)[0], 'scheduledinfodelivery', 'workshopinfo.txt')
+    workshops_category, workshops_title, workshops_duration, workshops_location = get_workshop_info(TEMPLATE_WORKSHOP_INFO_DIR) # read workshop information
+    # using zip to iterate over all workshop info entities easily
+    workshops_info = zip(workshops_category, workshops_title, workshops_duration, workshops_location)
     if user_exists:
         if request.method == 'POST' and info_form.is_valid:
             return redirect('home')
         else:
-            context = {'request':request, 'infoform' : info_form, 'schedform' : sched_form, 'emailform' : email_form, 'username' : user_ref}
+            context = {'username' : user_ref,
+                       'infoform' : info_form,
+                       'emailform' : email_form,
+                       'workshops_info' : workshops_info,
+                       }
             return render(request, 'scheduledinfodelivery/home.html', context)
     else:
         return HttpResponse('Login again using the link: \'http://127.0.0.1:8000/infodeliver/\' ')
@@ -113,7 +133,6 @@ def handle_info(request):
 
 def schedule(request):
     if user_exists and request.method == 'POST':
-        '''
         scheduler.set_job_status('start')
         scheduler.set_job_type(
             'email', request.POST['info_content']
@@ -124,47 +143,7 @@ def schedule(request):
             request.POST['minute'],
             request.POST['second']
         )
-        '''
-
-        '''
-        scheduler.set_username(user_ref)
-        user_obj = User.objects.get(username=str(user_ref))
-        user_scheduler = user_obj.scheduleinfordeliver_set.all()[0]
-
-        # the following are the updation quries
-        user_scheduler.job_status = 'start'
-        user_scheduler.job_type = 'email'
-        user_scheduler.job_info_content = request.POST['info_content']
-        user_scheduler.day = request.POST['day']
-        user_scheduler.hour = request.POST['hour']
-        user_scheduler.minute = request.POST['minute']
-        user_scheduler.second = request.POST['second']
-
-        # have to create a db entry for this one
-        email_receiver = request.POST['to_address']
-        email_subject = request.POST['email_subject']
-
-        # never forget to save after updation
-        user_scheduler.save()
-        '''
-
-        scheduler.job_start(
-            'start',
-            'email',
-            request.POST['to_address'],
-            request.POST['email_subject'],
-            request.POST['info_content'],
-            request.POST['day'],
-            request.POST['hour'],
-            request.POST['minute'],
-            request.POST['second']
-        )
-
-        '''
-        tasks.send_email_task.delay(
-            'email', 'message'
-        )
-        '''
+        scheduler.job_start()
         return redirect('home')
     else:
         return redirect('index')
@@ -172,12 +151,7 @@ def schedule(request):
 
 def stop_schedule(request):
     if user_exists:
-        user_obj = User.objects.get(username=user_ref)
-        user_scheduler = user_obj.scheduleinfordeliver_set.all()[0]
-
-        user_scheduler.job_status = 'stop'
-        user_scheduler.save()
-        # scheduler.set_job_status('stop')
+        scheduler.set_job_status('stop')
         scheduler.job_start()
         return redirect('home')
     else:

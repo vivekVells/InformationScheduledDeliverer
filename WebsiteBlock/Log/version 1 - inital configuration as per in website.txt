@@ -1,0 +1,102 @@
+LOG FILE
+Used this website: https://www.codingforentrepreneurs.com/blog/celery-redis-django/
+
+commands used:
+- D:\DigitalEdWorkshopAutoMail\DigitalEdWorkshopAutoMail\SourceRoot\WebsiteBlock\ScheduledInfoDeliverer>celery -A ScheduledInfoDeliverer worker --pool=solo -l info
+- D:\DigitalEdWorkshopAutoMail\DigitalEdWorkshopAutoMail\SourceRoot\WebsiteBlock\ScheduledInfoDeliverer>celery -A ScheduledInfoDeliverer beat -l info
+- C:\Users\maristuser>redis-server
+
+
+
+
+
+********************
+celery worker
+********************
+D:\DigitalEdWorkshopAutoMail\DigitalEdWorkshopAutoMail\SourceRoot\WebsiteBlock\ScheduledInfoDeliverer>celery -A ScheduledInfoDeliverer worker --pool=solo -l info
+
+ -------------- celery@LB305-12 v4.1.0 (latentcall)
+---- **** -----
+--- * ***  * -- Windows-10-10.0.15063-SP0 2018-04-20 12:01:20
+-- * - **** ---
+- ** ---------- [config]
+- ** ---------- .> app:         ScheduledInfoDeliverer:0x3c06930
+- ** ---------- .> transport:   redis://localhost:6379//
+- ** ---------- .> results:     redis://localhost:6379/
+- *** --- * --- .> concurrency: 4 (solo)
+-- ******* ---- .> task events: OFF (enable -E to monitor tasks in this worker)
+--- ***** -----
+ -------------- [queues]
+                .> celery           exchange=celery(direct) key=celery
+
+
+[tasks]
+  . ScheduledInfoDeliverer.celery.debug_task
+  . multiply_two_numbers
+  . sum_list_numbers
+  . sum_two_numbers
+
+[2018-04-20 12:01:21,502: INFO/MainProcess] Connected to redis://localhost:6379//
+[2018-04-20 12:01:22,518: INFO/MainProcess] mingle: searching for neighbors
+[2018-04-20 12:01:26,558: INFO/MainProcess] mingle: all alone
+[2018-04-20 12:01:31,599: WARNING/MainProcess] d:\python36\lib\site-packages\celery\fixups\django.py:202: UserWarning: Using settings.DEBUG leads to a memory leak, never use this setting in production environments!
+  warnings.warn('Using settings.DEBUG leads to a memory leak, never '
+[2018-04-20 12:01:31,601: INFO/MainProcess] celery@LB305-12 ready.
+
+
+*************************************
+Reids -server
+*************************************
+C:\Users\maristuser>redis-server
+[5420] 20 Apr 11:53:22 # Warning: no config file specified, using the default config. In order to specify a config file use 'redis-server /path/to/redis.conf'
+[5420] 20 Apr 11:53:22 * Server started, Redis version 2.4.6
+[5420] 20 Apr 11:53:22 * DB loaded from disk: 0 seconds
+[5420] 20 Apr 11:53:22 * The server is now ready to accept connections on port 6379
+[5420] 20 Apr 11:53:23 - DB 0: 3 keys (0 volatile) in 4 slots HT.
+[5420] 20 Apr 11:53:23 - 0 clients connected (0 slaves), 1180984 bytes in use
+[5420] 20 Apr 11:53:28 - DB 0: 3 keys (0 volatile) in 4 slots HT.
+[5420] 20 Apr 11:53:28 - 0 clients connected (0 slaves), 1180984 bytes in use
+[5420] 20 Apr 11:53:33 - DB 0: 3 keys (0 volatile) in 4 slots HT.
+[5420] 20 Apr 11:53:33 - 0 clients connected (0 slaves), 1180984 bytes in use
+[5420] 20 Apr 11:53:38 - DB 0: 3 keys (0 volatile) in 4 slots HT.
+[5420] 20 Apr 11:53:38 - 0 clients connected (0 slaves), 1180984 bytes in use
+[5420] 20 Apr 11:53:43 - DB 0: 3 keys (0 volatile) in 4 slots HT.
+[5420] 20 Apr 11:53:43 - 0 clients connected (0 slaves), 1180984 bytes in use
+[5420] 20 Apr 11:53:48 - Accepted 127.0.0.1:49725
+[5420] 20 Apr 11:53:48 - Client closed connection
+[5420] 20 Apr 11:53:48 - DB 0: 3 keys (0 volatile) in 4 slots HT.
+
+
+
+
+********************************************************
+django-celery beat
+********************************************************
+D:\DigitalEdWorkshopAutoMail\DigitalEdWorkshopAutoMail\SourceRoot\WebsiteBlock\ScheduledInfoDeliverer>celery -A ScheduledInfoDeliverer beat -l info
+celery beat v4.1.0 (latentcall) is starting.
+__    -    ... __   -        _
+LocalTime -> 2018-04-20 11:58:46
+Configuration ->
+    . broker -> redis://localhost:6379//
+    . loader -> celery.loaders.app.AppLoader
+    . scheduler -> celery.beat.PersistentScheduler
+    . db -> celerybeat-schedule
+    . logfile -> [stderr]@%INFO
+    . maxinterval -> 5.00 minutes (300s)
+[2018-04-20 11:58:46,070: INFO/MainProcess] beat: Starting...
+[2018-04-20 11:58:52,209: INFO/MainProcess] Scheduler: Sending due task add-every-5-seconds (multiply_two_numbers)
+[2018-04-20 11:58:56,191: INFO/MainProcess] Scheduler: Sending due task add-every-5-seconds (multiply_two_numbers)
+[2018-04-20 11:59:00,000: INFO/MainProcess] Scheduler: Sending due task add-every-minute-contrab (multiply_two_numbers)
+[2018-04-20 11:59:01,191: INFO/MainProcess] Scheduler: Sending due task add-every-5-seconds (multiply_two_numbers)
+[2018-04-20 11:59:06,192: INFO/MainProcess] Scheduler: Sending due task add-every-5-seconds (multiply_two_numbers)
+[2018-04-20 11:59:11,192: INFO/MainProcess] Scheduler: Sending due task add-every-5-seconds (multiply_two_numbers)
+[2018-04-20 11:59:16,190: INFO/MainProcess] Scheduler: Sending due task add-every-30-seconds (tasks.add)
+[2018-04-20 11:59:16,193: INFO/MainProcess] Scheduler: Sending due task add-every-5-seconds (multiply_two_numbers)
+[2018-04-20 11:59:21,193: INFO/MainProcess] Scheduler: Sending due task add-every-5-seconds (multiply_two_numbers)
+[2018-04-20 11:59:26,193: INFO/MainProcess] Scheduler: Sending due task add-every-5-seconds (multiply_two_numbers)
+[2018-04-20 11:59:31,194: INFO/MainProcess] Scheduler: Sending due task add-every-5-seconds (multiply_two_numbers)
+[2018-04-20 11:59:36,195: INFO/MainProcess] Scheduler: Sending due task add-every-5-seconds (multiply_two_numbers)
+[2018-04-20 11:59:41,195: INFO/MainProcess] Scheduler: Sending due task add-every-5-seconds (multiply_two_numbers)
+[2018-04-20 11:59:46,190: INFO/MainProcess] Scheduler: Sending due task add-every-30-seconds (tasks.add)
+[2018-04-20 12:01:05,485: INFO/MainProcess] Scheduler: Sending due task add-every-5-seconds (multiply_two_numbers)
+[2018-04-20 12:01:05,488: INFO/MainProcess] Scheduler: Sending due task add-every-minute-contrab (multiply_two_numbers)

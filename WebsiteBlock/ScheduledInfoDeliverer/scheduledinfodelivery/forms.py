@@ -37,10 +37,12 @@ class EmailForms(forms.Form):
     to_address = forms.CharField(max_length=500,
                                  widget=forms.TextInput(attrs={'placeholder' : 'Send Mail to'}))
 
+
 # Information Page Form
 class InfoForms(forms.Form):
     info_content = forms.CharField(max_length=10000,
                                    widget=forms.Textarea(attrs={'class' : '', 'placeholder' : 'Content to be delivered'}))
+
 
 class SchedForms(forms.Form):
     day = forms.IntegerField(
