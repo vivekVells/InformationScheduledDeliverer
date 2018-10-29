@@ -1,16 +1,19 @@
 # InformationScheduledDeliverer
 Information Deliverer is an app to schedule the desired content information to be delivered by delivery medium like Email, Text, Fax, etc.
 
-### Note
-- This project is one among the specials to me as I solely completed this project solving a real time issue by utilizing best SDLC practices starting from understanding customer needs, design, build, test, deploy and maintain.
-
 ## Objective
 - To schedule mail automatically and deliver the contents via email or test or any such medium
 
+### Note
+- This project is one among the specials to me as I solely completed this project solving a real time issue by utilizing best SDLC practices starting from understanding customer needs, design, build, test, deploy and maintain.
+- refer the working demo screenshots in this [link](https://github.com/vivekVells/InformationScheduledDeliverer#app-previews)
+
 ## Reason for this project creation
 - When I was working at [Digital Education](https://www.marist.edu/digital-education), Marist College, I had an opportunity to sovle a real time problem being faced by Digital Education Representatives. 
+
 - **Issue to solve:**
   - Digital Education Representatives have to manually mail to all the faculties who have registered for thier workshop session daily in the morning based on the scheduled workshop timing & location
+  
 - **What I did:**
   - I learnt Django for different goal set by developing this [EmployeeWorkTimeLogManagement](https://github.com/vivekVells/EmployeeWorkTimeLogManagement) project and just before few days, this issue showed up. I found that this issue can be resolved using Django and this will be a good one to test my skills in Django.
   - I used Celery to schedule mailing action. Digital Ed Rep can now log into the website and set the automatic mailing timing manually or let it be sending mail by default on 08:00 AM daily so that the program can send mail to the faculties who have registered for the workshop accordingly. 
@@ -51,5 +54,17 @@ Information Deliverer is an app to schedule the desired content information to b
 
 # App Previews
 ## Images
+### Marist Digital Education Site
+![Marist Digital Education Site](https://github.com/vivekVells/InformationScheduledDeliverer/blob/master/WebsiteBlock/memories/working/Marist%20Digital%20Education%20Home%20Page.png)
+
+### Workshop Info that needs to be mailed
+![](https://github.com/vivekVells/InformationScheduledDeliverer/blob/master/WebsiteBlock/memories/working/CTE%20Workshop%20Information%20Home%20Page.png)
+
 ### Login Page
-![]()
+![](https://github.com/vivekVells/InformationScheduledDeliverer/blob/master/WebsiteBlock/memories/working/Login%20Page%20-%20Version%202.png)
+
+### Home Page
+![](https://github.com/vivekVells/InformationScheduledDeliverer/blob/master/WebsiteBlock/memories/working/Home%20Page%20-%20Version%201.png)
+
+### Sample Mail Reception for Faculty
+![](https://github.com/vivekVells/InformationScheduledDeliverer/blob/master/WebsiteBlock/memories/working/Mail%20Reception%20-%20Version%201.png)
