@@ -7,7 +7,7 @@ Information Deliverer is an app to schedule the desired content information to b
 - To schedule mail automatically and deliver the contents via email or test or any such medium
 
 ### Note
-- This project is one among the specials to me as I solely completed this project solving a real time issue by utilizing best SDLC practices starting from understanding customer needs, design, build, test, deploy and maintain.
+- This project is one among the specials to me as this project involves solving a real time issue by utilizing best SDLC practices starting from understanding customer needs, design, build, test, deploy and maintain.
 - refer the working demo screenshots in this [link](https://github.com/vivekVells/InformationScheduledDeliverer#app-previews)
 
 ## Reason for this project creation
